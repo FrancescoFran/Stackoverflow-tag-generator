@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template
+import pandas as pd
 import joblib
 import text_preprocessor as txt_ppc
 
@@ -23,6 +24,7 @@ def main():
         # check language
         x = txt_ppc.lang_check(text)
 
+        results = {}
         # clean text
         x = txt_ppc.cleaner(x)
 
@@ -31,8 +33,21 @@ def main():
 
         # predict
         predict = model.predict(x_tfidf)
+        predict_prob = model.predict_proba(x_tfidf)
         tags_predict = multilabel_bin.inverse_transform(predict)
-        results = tags_predict
+
+        a = []
+        for j in range(0, 50):
+            a.append(round(predict_prob[0, j] * 100, 1))
+
+        df = pd.DataFrame(columns=['tags', 'probs'])
+        df['tags'] = multilabel_bin.classes_
+        df['probs'] = a
+        df = df.sort_values('probs', ascending=False).head(10)
+
+        results['Tags'] = tags_predict
+        results['Probabilities'] = df.set_index('tags')['probs'].to_dict()
+
 
     else:
         results = ""
