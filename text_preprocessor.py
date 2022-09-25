@@ -13,6 +13,7 @@ from nltk.stem import WordNetLemmatizer
 nltk.download('averaged_perceptron_tagger')
 nltk.download('tagsets')
 nltk.download('omw-1.4')
+nltk.download('punkt')
 
 
 def lang_check(x):
