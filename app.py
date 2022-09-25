@@ -13,7 +13,7 @@ def main():
     # If a form is submitted
     if request.method == "POST":
         # Unpickle vectorizer, binarizer and classifier
-        model_path = "C:/Users/franc/PycharmProjects/pythonProject5/static/models/"
+        model_path = "static/models/"
         vect = joblib.load(model_path + "tfidf_vectorizer.pkl")
         multilabel_bin = joblib.load(model_path + "multilabel_binarizer.pkl")
         model = joblib.load(model_path + "log_ref_clf.pkl")
